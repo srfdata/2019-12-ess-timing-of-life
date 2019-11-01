@@ -179,7 +179,7 @@ if (!dir.exists("~/.checkpoint")) {
 checkpoint(snapshotDate = package_date,
            project = path_to_wd,
            verbose = T,
-           scanForPackages = F,
+           scanForPackages = T,
            use.knitr = F,
            R.version = R_version)
 rm(package_date)
@@ -328,7 +328,7 @@ rm(Round_3, Round_9.1)
  iagpnt : Become mother/father, ideal age.
  iagrtr : Retire permanently, ideal age.
 
-```{r}
+```{r ideal age}
 # How did the ideal age change? (aggregate with mean)
 Timing_of_life %>% 
   filter(!is.na(year) & 
@@ -423,7 +423,7 @@ IdealAge(Timing_of_life, "age_grouping")
 
 ### Einstellungen zu bestimmten Fragen
 
-```{r}
+```{r approvement questions}
 # Prepare the titles for the function
 translate_question_ids_short <- function(question_id) {
   case_when(
@@ -598,7 +598,6 @@ PeopleReactionGrouped(Timing_of_life, "acldnmr", "icsbfm")
 # working full-time with kids under 3
 PeopleReaction(Timing_of_life, "aftjbyc")
 PeopleReactionGrouped(Timing_of_life, "aftjbyc", "icsbfm")
-PeopleReactionGrouped(Timing_of_life, "aftjbyc", "age_grouping")
 
 
 ```
