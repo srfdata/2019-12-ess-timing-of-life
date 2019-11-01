@@ -474,7 +474,9 @@ PeopleReaction <- function(data, question_id) {
     pull()
     
   share_calculation %>% 
-    select(-avg_dweight, -is) %>% 
+    select(-avg_dweight, -is) %>%
+    # spread for datawrapper
+    spread(key = year, value = share) %>%
     write_csv(path = glue::glue("output/approvement_{question_id}.csv"))
   
   share_calculation %>% 
@@ -547,7 +549,9 @@ PeopleReactionGrouped <- function(data, question_id, grouping_var, gndr_filter =
     ungroup()
   
   share_calculation %>% 
-    select(-avg_dweight, -is) %>% 
+    select(-avg_dweight, -is) %>%
+    # spread for datawrapper
+    spread(key = year, value = share) %>% 
     write_csv(path = glue::glue("output/approvement_{question_id}_{grouping_var}.csv"))
   
   max_share <- share_calculation %>% 
