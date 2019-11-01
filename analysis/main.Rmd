@@ -474,6 +474,10 @@ PeopleReaction <- function(data, question_id) {
     pull()
     
   share_calculation %>% 
+    select(-avg_dweight, -is) %>% 
+    write_csv(path = glue::glue("output/approvement_{question_id}.csv"))
+  
+  share_calculation %>% 
     ggplot(aes(x = year, 
                y = share, 
                fill = Answer,
@@ -534,6 +538,10 @@ PeopleReactionGrouped <- function(data, question_id, grouping_var) {
     # compute fractions
     mutate(share = is/sum(is)) %>% 
     ungroup()
+  
+  share_calculation %>% 
+    select(-avg_dweight, -is) %>% 
+    write_csv(path = glue::glue("output/approvement_{question_id}_{grouping_var}.csv"))
   
   max_share <- share_calculation %>% 
     arrange(desc(share)) %>% 
