@@ -510,11 +510,18 @@ PeopleReaction <- function(data, question_id) {
         x = "", y = "")
 }
 
-PeopleReactionGrouped <- function(data, question_id, grouping_var) {
+PeopleReactionGrouped <- function(data, question_id, grouping_var, gndr_filter = FALSE) {
   share_calculation <- data %>% 
     filter(Question == question_id & 
              !is.na(Answer) & 
-             !is.na(!!sym(grouping_var))) %>% 
+             !is.na(!!sym(grouping_var)))
+  
+  if(gndr_filter != FALSE){
+    share_calculation %<>%
+      filter(gndr == gndr_filter)
+  }
+  print(nrow(share_calculation))
+  share_calculation %<>%
     mutate(Answer = case_when(
         Answer == 1 ~ "Stark ablehnen",
         Answer == 2 ~ "Ablehnen",
@@ -547,6 +554,10 @@ PeopleReactionGrouped <- function(data, question_id, grouping_var) {
     arrange(desc(share)) %>% 
     slice(1) %>% 
     pull()
+  
+  addendum <- ifelse(gndr_filter != FALSE, "(Antwort nur von", "")
+  addendum <- ifelse(gndr_filter == "Mann", glue::glue("{addendum} Männern)"), addendum)
+  addendum <- ifelse(gndr_filter == "Frau", glue::glue("{addendum} Frauen)"), addendum)
   
   share_calculation %>% 
     ggplot(aes(x = year, 
@@ -582,7 +593,7 @@ PeopleReactionGrouped <- function(data, question_id, grouping_var) {
                        limits = c(0, max_share + .1)) +
     theme_srf() +
     labs(title = translate_question_ids_short(question_id),
-         subtitle = ifelse(grouping_var == "icsbfm", "Frage jeweils betreffend Frauen und Männern separat gestellt", ""),
+         subtitle = ifelse(grouping_var == "icsbfm", glue::glue("Frage jeweils betreffend Frauen und Männern separat gestellt {addendum}"), ""),
         x = "", y = "")
 }
 
@@ -606,6 +617,8 @@ PeopleReactionGrouped(Timing_of_life, "acldnmr", "icsbfm")
 # working full-time with kids under 3
 PeopleReaction(Timing_of_life, "aftjbyc")
 PeopleReactionGrouped(Timing_of_life, "aftjbyc", "icsbfm")
+PeopleReactionGrouped(Timing_of_life, "aftjbyc", "icsbfm", "Frau")
+PeopleReactionGrouped(Timing_of_life, "aftjbyc", "icsbfm", "Mann")
 
 
 ```
