@@ -332,7 +332,7 @@ rm(Round_3, Round_9.1)
 # How did the ideal age change? (aggregate with mean)
 Timing_of_life %>% 
   filter(!is.na(year) & 
-           Question == c("iaglptn", "iaglvmr", "iagpnt", "iagrtr")) %>% 
+           Question %in% c("iaglptn", "iaglvmr", "iagpnt", "iagrtr")) %>% 
   mutate(
     Answer = replace(Answer, Answer == 0, NA),
     Answer = replace(Answer, Answer == 111, NA),
@@ -371,7 +371,7 @@ Timing_of_life %>%
 IdealAge <- function(data, grouping_var) {
   data %>% 
     filter(cntry == "CH" & 
-             Question == c("iaglptn", "iaglvmr", "iagpnt", "iagrtr")) %>% 
+             Question %in% c("iaglptn", "iaglvmr", "iagpnt", "iagrtr")) %>% 
     mutate(
       Answer = replace(Answer, Answer == 0, NA),
       Answer = replace(Answer, Answer == 111, NA),
