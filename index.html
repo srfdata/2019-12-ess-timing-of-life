@@ -1650,7 +1650,7 @@ div.tocify {
 <h3>R-Script &amp; Daten</h3>
 <p>Die Vorprozessierung und Analyse wurde im Statistikprogramm R vorgenommen. Das zugrunde liegende Script sowie die prozessierten Daten können unter <a href="https://srfdata.github.io/2019-11-ess-timing-of-life/rscript.zip">diesem Link</a> heruntergeladen werden. Durch Ausführen von <code>main.Rmd</code> kann der hier beschriebene Prozess nachvollzogen und der für den Artikel verwendete Datensatz generiert werden. Dabei werden Daten aus dem Ordner <code>input</code> eingelesen und Ergebnisse in den Ordner <code>output</code> geschrieben.</p>
 <p>SRF Data verwendet das <a href="https://github.com/grssnbchr/rddj-template">rddj-template</a> von Timo Grossenbacher als Grundlage für seine R-Scripts. Entstehen bei der Ausführung dieses Scripts Probleme, kann es helfen, die Anleitung von <a href="https://github.com/grssnbchr/rddj-template">rddj-template</a> zu studieren.</p>
-<p>Debug-Informationen: <em>This report was generated on 2019-11-19 14:20:04. R version: 3.5.3 on x86_64-pc-linux-gnu. For this report, CRAN packages as of 2019-03-01 were used.</em></p>
+<p>Debug-Informationen: <em>This report was generated on 2019-11-19 14:30:03. R version: 3.5.3 on x86_64-pc-linux-gnu. For this report, CRAN packages as of 2019-03-01 were used.</em></p>
 </div>
 <div id="github" class="section level3">
 <h3>GitHub</h3>
@@ -2052,15 +2052,20 @@ IdealAge(Timing_of_life, &quot;age_grouping&quot;)</code></pre>
 <pre class="r"><code># Prepare the titles for the function
 translate_question_ids_short &lt;- function(question_id) {
   case_when(
-    question_id == &quot;anvcld&quot; ~ &quot;Befürworten Sie es, wenn sich eine Person entscheidet, 
+    question_id == &quot;anvcld&quot; ~ 
+    &quot;Befürworten Sie es, wenn sich eine Person entscheidet, 
     niemals Kinder zu haben?&quot;,
-    question_id == &quot;alvgptn&quot; ~ &quot;Befürworten Sie es, wenn eine Person unverheiratet 
+    question_id == &quot;alvgptn&quot; ~ 
+    &quot;Befürworten Sie es, wenn eine Person unverheiratet 
     mit ihrem Partner zusammen lebt?&quot;,
-    question_id == &quot;acldnmr&quot; ~ &quot;Befürworten Sie es, wenn eine Person unverheiratet 
+    question_id == &quot;acldnmr&quot; ~ 
+    &quot;Befürworten Sie es, wenn eine Person unverheiratet 
     mit ihrem Partner Kinder bekommt?&quot;,
-    question_id == &quot;aftjbyc&quot; ~ &quot;Befürworten Sie es, wenn eine Person in Vollzeit 
+    question_id == &quot;aftjbyc&quot; ~ 
+    &quot;Befürworten Sie es, wenn eine Person in Vollzeit 
     arbeitet, trotz Kindern unter 3 Jahren?&quot;,
-    question_id == &quot;advcyc&quot; ~ &quot;Befürworten Sie es, wenn sich eine Person scheiden 
+    question_id == &quot;advcyc&quot; ~ 
+    &quot;Befürworten Sie es, wenn sich eine Person scheiden 
     lässt, trotz Kindern unter 12 Jahren?&quot;) 
 }
 
@@ -2082,7 +2087,7 @@ PeopleReaction &lt;- function(data, question_id) {
         &quot;Indifferent&quot;,
         &quot;Befürworten&quot;,
         &quot;Stark befürworten&quot;))
-                  )%&gt;% 
+                  ) %&gt;% 
     group_by(year, Answer) %&gt;% 
     summarise(is = n(), 
               # weights
@@ -2090,7 +2095,7 @@ PeopleReaction &lt;- function(data, question_id) {
     # weight data with average weights over group
     mutate(is = avg_dweight * is) %&gt;% 
     # compute fractions
-    mutate(share = is/sum(is)) %&gt;% 
+    mutate(share = is / sum(is)) %&gt;% 
     ungroup()
     
   max_share &lt;- share_calculation %&gt;% 
@@ -2137,13 +2142,16 @@ PeopleReaction &lt;- function(data, question_id) {
         x = &quot;&quot;, y = &quot;&quot;)
 }
 
-PeopleReactionGrouped &lt;- function(data, question_id, grouping_var, gndr_filter = FALSE) {
+PeopleReactionGrouped &lt;- function(data,
+                                  question_id, 
+                                  grouping_var, 
+                                  gndr_filter = FALSE) {
   share_calculation &lt;- data %&gt;% 
     filter(Question == question_id &amp; 
              !is.na(Answer) &amp; 
              !is.na(!!sym(grouping_var)))
   
-  if(gndr_filter != FALSE){
+  if (gndr_filter != FALSE){
     share_calculation %&lt;&gt;%
       filter(gndr == gndr_filter)
   }
@@ -2162,7 +2170,7 @@ PeopleReactionGrouped &lt;- function(data, question_id, grouping_var, gndr_filte
         &quot;Indifferent&quot;,
         &quot;Befürworten&quot;,
         &quot;Stark befürworten&quot;))
-    ) %&gt;% 
+    ) %&gt;%
     group_by(year, !!sym(grouping_var), Answer) %&gt;% 
     summarise(is = n(), 
               # weights
@@ -2170,14 +2178,16 @@ PeopleReactionGrouped &lt;- function(data, question_id, grouping_var, gndr_filte
     # weight data with average weights over group
     mutate(is = avg_dweight * is) %&gt;% 
     # compute fractions
-    mutate(share = is/sum(is)) %&gt;% 
+    mutate(share = is / sum(is)) %&gt;% 
     ungroup()
   
   share_calculation %&gt;% 
     select(-avg_dweight, -is) %&gt;%
     # spread for datawrapper
     spread(key = year, value = share) %&gt;% 
-    write_csv(path = glue::glue(&quot;output/approvement_{question_id}_{grouping_var}.csv&quot;))
+    write_csv(path = 
+                glue::glue(
+                  &quot;output/approvement_{question_id}_{grouping_var}.csv&quot;))
   
   max_share &lt;- share_calculation %&gt;% 
     arrange(desc(share)) %&gt;% 
@@ -2185,8 +2195,10 @@ PeopleReactionGrouped &lt;- function(data, question_id, grouping_var, gndr_filte
     pull()
   
   addendum &lt;- ifelse(gndr_filter != FALSE, &quot;(Antwort nur von&quot;, &quot;&quot;)
-  addendum &lt;- ifelse(gndr_filter == &quot;Mann&quot;, glue::glue(&quot;{addendum} Männern)&quot;), addendum)
-  addendum &lt;- ifelse(gndr_filter == &quot;Frau&quot;, glue::glue(&quot;{addendum} Frauen)&quot;), addendum)
+  addendum &lt;- ifelse(gndr_filter == &quot;Mann&quot;, 
+                     glue::glue(&quot;{addendum} Männern)&quot;), addendum)
+  addendum &lt;- ifelse(gndr_filter == &quot;Frau&quot;, 
+                     glue::glue(&quot;{addendum} Frauen)&quot;), addendum)
   
   share_calculation %&gt;% 
     ggplot(aes(x = year, 
@@ -2221,9 +2233,14 @@ PeopleReactionGrouped &lt;- function(data, question_id, grouping_var, gndr_filte
     scale_y_continuous(labels = scales::percent,
                        limits = c(0, max_share + .1)) +
     theme_srf() +
-    labs(title = translate_question_ids_short(question_id),
-         subtitle = ifelse(grouping_var == &quot;icsbfm&quot;, glue::glue(&quot;Frage jeweils betreffend Frauen und Männern separat gestellt {addendum}&quot;), &quot;&quot;),
-        x = &quot;&quot;, y = &quot;&quot;)
+    labs(title = 
+           translate_question_ids_short(question_id),
+         subtitle = 
+ ifelse(grouping_var == &quot;icsbfm&quot;, 
+   glue::glue(
+     &quot;Frage jeweils betreffend Frauen und Männern separat gestellt {addendum}&quot;),
+   &quot;&quot;),
+x = &quot;&quot;, y = &quot;&quot;)
 }
 
 
@@ -2285,50 +2302,8 @@ PeopleReaction(Timing_of_life, &quot;aftjbyc&quot;)</code></pre>
                 commented_code_linter = NULL,
                 trailing_whitespace_linter = NULL
                 )
-            )</code></pre>
-<pre><code>## main.Rmd:439:1: style: lines should not be more than 80 characters.
-##     question_id == &quot;anvcld&quot; ~ &quot;Befürworten Sie es, wenn sich eine Person entscheidet, 
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## main.Rmd:441:1: style: lines should not be more than 80 characters.
-##     question_id == &quot;alvgptn&quot; ~ &quot;Befürworten Sie es, wenn eine Person unverheiratet 
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## main.Rmd:443:1: style: lines should not be more than 80 characters.
-##     question_id == &quot;acldnmr&quot; ~ &quot;Befürworten Sie es, wenn eine Person unverheiratet 
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## main.Rmd:445:1: style: lines should not be more than 80 characters.
-##     question_id == &quot;aftjbyc&quot; ~ &quot;Befürworten Sie es, wenn eine Person in Vollzeit 
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## main.Rmd:447:1: style: lines should not be more than 80 characters.
-##     question_id == &quot;advcyc&quot; ~ &quot;Befürworten Sie es, wenn sich eine Person scheiden 
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## main.Rmd:469:20: style: Put spaces around all infix operators.
-##                   )%&gt;% 
-##                   ~^
-## main.Rmd:477:22: style: Put spaces around all infix operators.
-##     mutate(share = is/sum(is)) %&gt;% 
-##                     ~^~
-## main.Rmd:524:1: style: lines should not be more than 80 characters.
-## PeopleReactionGrouped &lt;- function(data, question_id, grouping_var, gndr_filter = FALSE) {
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## main.Rmd:530:5: style: Place a space before left parenthesis, except in a function call.
-##   if(gndr_filter != FALSE){
-##     ^
-## main.Rmd:557:22: style: Put spaces around all infix operators.
-##     mutate(share = is/sum(is)) %&gt;% 
-##                     ~^~
-## main.Rmd:564:1: style: lines should not be more than 80 characters.
-##     write_csv(path = glue::glue(&quot;output/approvement_{question_id}_{grouping_var}.csv&quot;))
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## main.Rmd:572:1: style: lines should not be more than 80 characters.
-##   addendum &lt;- ifelse(gndr_filter == &quot;Mann&quot;, glue::glue(&quot;{addendum} Männern)&quot;), addendum)
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## main.Rmd:573:1: style: lines should not be more than 80 characters.
-##   addendum &lt;- ifelse(gndr_filter == &quot;Frau&quot;, glue::glue(&quot;{addendum} Frauen)&quot;), addendum)
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## main.Rmd:609:1: style: lines should not be more than 80 characters.
-##          subtitle = ifelse(grouping_var == &quot;icsbfm&quot;, glue::glue(&quot;Frage jeweils betreffend Frauen und Männern separat gestellt {addendum}&quot;), &quot;&quot;),
-## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</code></pre>
-<pre class="r"><code># if you have additional scripts and want them to be linted too, add them here
+            )
+# if you have additional scripts and want them to be linted too, add them here
 # lintr::lint(&quot;scripts/my_script.R&quot;)</code></pre>
 </div>
 
