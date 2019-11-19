@@ -74,18 +74,18 @@ Die veröffentlichten Informationen sind sorgfältig zusammengestellt, erheben a
 
 | Attribut | Typ | Beschreibung |
 |-------|------|-----------------------------------------------------------------------------|
-| year | Numeric | Jahr, in dem die Frage gestellt wurde. |
 | Answer | String  | Art der Antwort. |
-| share | Numeric |  Anteil der Befragten mit dieser Antwort. |
+| 2006 | Numeric |  Anteil der Befragten mit dieser Antwort im Jahr 2006. |
+| 2018 | Numeric |  Anteil der Befragten mit dieser Antwort im Jahr 2018. |
 
 #### `approvement_*_icsbfm.csv`
 
 | Attribut | Typ | Beschreibung |
 |-------|------|-----------------------------------------------------------------------------|
-| year | Numeric | Jahr, in dem die Frage gestellt wurde. |
 | icsbfm | String | Ob die Frage betr. Frauen oder Männer gestellt wurde. |
 | Answer | String  | Art der Antwort. |
-| share | Numeric |  Anteil der Befragten mit dieser Antwort. |
+| 2006 | Numeric |  Anteil der Befragten mit dieser Antwort im Jahr 2006. |
+| 2018 | Numeric |  Anteil der Befragten mit dieser Antwort im Jahr 2018. |
 
 ### Originalquelle
 
