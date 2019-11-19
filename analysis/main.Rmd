@@ -436,15 +436,20 @@ IdealAge(Timing_of_life, "age_grouping")
 # Prepare the titles for the function
 translate_question_ids_short <- function(question_id) {
   case_when(
-    question_id == "anvcld" ~ "Befürworten Sie es, wenn sich eine Person entscheidet, 
+    question_id == "anvcld" ~ 
+    "Befürworten Sie es, wenn sich eine Person entscheidet, 
     niemals Kinder zu haben?",
-    question_id == "alvgptn" ~ "Befürworten Sie es, wenn eine Person unverheiratet 
+    question_id == "alvgptn" ~ 
+    "Befürworten Sie es, wenn eine Person unverheiratet 
     mit ihrem Partner zusammen lebt?",
-    question_id == "acldnmr" ~ "Befürworten Sie es, wenn eine Person unverheiratet 
+    question_id == "acldnmr" ~ 
+    "Befürworten Sie es, wenn eine Person unverheiratet 
     mit ihrem Partner Kinder bekommt?",
-    question_id == "aftjbyc" ~ "Befürworten Sie es, wenn eine Person in Vollzeit 
+    question_id == "aftjbyc" ~ 
+    "Befürworten Sie es, wenn eine Person in Vollzeit 
     arbeitet, trotz Kindern unter 3 Jahren?",
-    question_id == "advcyc" ~ "Befürworten Sie es, wenn sich eine Person scheiden 
+    question_id == "advcyc" ~ 
+    "Befürworten Sie es, wenn sich eine Person scheiden 
     lässt, trotz Kindern unter 12 Jahren?") 
 }
 
@@ -466,7 +471,7 @@ PeopleReaction <- function(data, question_id) {
         "Indifferent",
         "Befürworten",
         "Stark befürworten"))
-                  )%>% 
+                  ) %>% 
     group_by(year, Answer) %>% 
     summarise(is = n(), 
               # weights
@@ -474,7 +479,7 @@ PeopleReaction <- function(data, question_id) {
     # weight data with average weights over group
     mutate(is = avg_dweight * is) %>% 
     # compute fractions
-    mutate(share = is/sum(is)) %>% 
+    mutate(share = is / sum(is)) %>% 
     ungroup()
     
   max_share <- share_calculation %>% 
@@ -521,13 +526,16 @@ PeopleReaction <- function(data, question_id) {
         x = "", y = "")
 }
 
-PeopleReactionGrouped <- function(data, question_id, grouping_var, gndr_filter = FALSE) {
+PeopleReactionGrouped <- function(data,
+                                  question_id, 
+                                  grouping_var, 
+                                  gndr_filter = FALSE) {
   share_calculation <- data %>% 
     filter(Question == question_id & 
              !is.na(Answer) & 
              !is.na(!!sym(grouping_var)))
   
-  if(gndr_filter != FALSE){
+  if (gndr_filter != FALSE){
     share_calculation %<>%
       filter(gndr == gndr_filter)
   }
@@ -546,7 +554,7 @@ PeopleReactionGrouped <- function(data, question_id, grouping_var, gndr_filter =
         "Indifferent",
         "Befürworten",
         "Stark befürworten"))
-    ) %>% 
+    ) %>%
     group_by(year, !!sym(grouping_var), Answer) %>% 
     summarise(is = n(), 
               # weights
@@ -554,14 +562,16 @@ PeopleReactionGrouped <- function(data, question_id, grouping_var, gndr_filter =
     # weight data with average weights over group
     mutate(is = avg_dweight * is) %>% 
     # compute fractions
-    mutate(share = is/sum(is)) %>% 
+    mutate(share = is / sum(is)) %>% 
     ungroup()
   
   share_calculation %>% 
     select(-avg_dweight, -is) %>%
     # spread for datawrapper
     spread(key = year, value = share) %>% 
-    write_csv(path = glue::glue("output/approvement_{question_id}_{grouping_var}.csv"))
+    write_csv(path = 
+                glue::glue(
+                  "output/approvement_{question_id}_{grouping_var}.csv"))
   
   max_share <- share_calculation %>% 
     arrange(desc(share)) %>% 
@@ -569,8 +579,10 @@ PeopleReactionGrouped <- function(data, question_id, grouping_var, gndr_filter =
     pull()
   
   addendum <- ifelse(gndr_filter != FALSE, "(Antwort nur von", "")
-  addendum <- ifelse(gndr_filter == "Mann", glue::glue("{addendum} Männern)"), addendum)
-  addendum <- ifelse(gndr_filter == "Frau", glue::glue("{addendum} Frauen)"), addendum)
+  addendum <- ifelse(gndr_filter == "Mann", 
+                     glue::glue("{addendum} Männern)"), addendum)
+  addendum <- ifelse(gndr_filter == "Frau", 
+                     glue::glue("{addendum} Frauen)"), addendum)
   
   share_calculation %>% 
     ggplot(aes(x = year, 
@@ -605,9 +617,14 @@ PeopleReactionGrouped <- function(data, question_id, grouping_var, gndr_filter =
     scale_y_continuous(labels = scales::percent,
                        limits = c(0, max_share + .1)) +
     theme_srf() +
-    labs(title = translate_question_ids_short(question_id),
-         subtitle = ifelse(grouping_var == "icsbfm", glue::glue("Frage jeweils betreffend Frauen und Männern separat gestellt {addendum}"), ""),
-        x = "", y = "")
+    labs(title = 
+           translate_question_ids_short(question_id),
+         subtitle = 
+ ifelse(grouping_var == "icsbfm", 
+   glue::glue(
+     "Frage jeweils betreffend Frauen und Männern separat gestellt {addendum}"),
+   ""),
+x = "", y = "")
 }
 
 
