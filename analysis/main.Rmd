@@ -40,8 +40,8 @@ SRF Data legt Wert darauf, dass die Datenvorprozessierung und -Analyse nachvollz
 
 Die Endprodukte des vorliegenden Scripts, neben der vorliegenden explorativen Analyse, sind (Datenbeschreibung siehe unten):
 
-* `xyz.csv`: ...
-* `abc.csv`: ...
+* `approvement_*.csv`: Für die Visualisierung aufbereitete Daten bezgl. der jeweiligen Fragestellung (nach dem `_`, korrespondiert mit dem Codebuch des ESS). 
+* `approvement_*_icsbfm.csv`: Idem, jedoch jeweils betreffend Frauen oder Männer.
 
 ### R-Script & Daten
 
@@ -70,17 +70,26 @@ Die veröffentlichten Informationen sind sorgfältig zusammengestellt, erheben a
 
 ### Datenbeschreibung 
 
-#### `xyz.csv` (Beispiel)
+#### `approvement_*.csv` (Beispiel)
 
 | Attribut | Typ | Beschreibung |
 |-------|------|-----------------------------------------------------------------------------|
-| x | String | |
-| y | String  | Ein y, aufgeteilt nach Jahren. |
-| z | Numeric |  z (wie y, aber numerisch). |
+| year | Numeric | Jahr, in dem die Frage gestellt wurde. |
+| Answer | String  | Art der Antwort. |
+| share | Numeric |  Anteil der Befragten mit dieser Antwort. |
+
+#### `approvement_*_icsbfm.csv`
+
+| Attribut | Typ | Beschreibung |
+|-------|------|-----------------------------------------------------------------------------|
+| year | Numeric | Jahr, in dem die Frage gestellt wurde. |
+| icsbfm | String | Ob die Frage betr. Frauen oder Männer gestellt wurde. |
+| Answer | String  | Art der Antwort. |
+| share | Numeric |  Anteil der Befragten mit dieser Antwort. |
 
 ### Originalquelle
 
-Die Daten stammen vom [European Social Survey](https://www.europeansocialsurvey.org/) (ESS), welcher alle zwei Jahre seit 2002 durchgeführt wird und Werte, Einstellungen sowie das soziale Verhalten der Bevölkerung erforscht. Der ESS ist eine wissenschaftliche, länderübergreifende Erhebung und wird in mehr als 30 europäischen Ländern durchgeführt. In der Schweiz wird die Befragung vom Schweizerischen Kompetenzzentrum Sozialwissenschaften (Fors) an der Universität Lausanne durchgeführt. Die neunte Erhebung fand im Jahr 2018 statt und wurde am 31.10.2019 publiziert. Für das vorliegende Projekt wurden die neusten Daten aus der neunten Runde, sowie die Daten aus der dritten Runde (2006) verwendet. Beide erheben Daten zu dem hier analysierten Themenblock "Timing of Life". 
+Die Daten stammen vom [European Social Survey](https://www.europeansocialsurvey.org/) (ESS), welcher alle zwei Jahre seit 2002 durchgeführt wird und Werte, Einstellungen sowie das soziale Verhalten der Bevölkerung erforscht. Der ESS ist eine wissenschaftliche, länderübergreifende Erhebung und wird in mehr als 30 europäischen Ländern durchgeführt. In der Schweiz wird die Befragung vom Schweizerischen Kompetenzzentrum Sozialwissenschaften (Fors) an der Universität Lausanne durchgeführt. Die neunte Erhebung fand im Jahr 2018 statt und wurde am 31.10.2019 publiziert. Für das vorliegende Projekt wurden die neusten Daten aus der neunten Runde (2018), sowie die Daten aus der dritten Runde (2006) verwendet. Beide erheben Daten zu dem hier analysierten Themenblock "Timing of Life". 
 
 Die Daten können auf der Webseite des [European Social Survey](https://www.europeansocialsurvey.org/data/) heruntergeladen werden.
 

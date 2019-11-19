@@ -1,280 +1,37 @@
-# rddj-template 
+# European Social Survey: Timing of Life
 
-*A template for bootstrapping reproducible RMarkdown documents for data journalistic purposes.*
+## Vorbemerkungen
 
-This is a repository cloned from [grssnbchr/rddj-template](https://github.com/grssnbchr/rddj-template) according to [this procedure](https://medium.com/@bilalbayasut/github-how-to-make-a-fork-of-public-repository-private-6ee8cacaf9d3).
+Dieses Dokument beschreibt die Vorprozessierung und explorative Analyse des Datensatzes, der Grundlage des auf srf.ch veröffentlichten Artikel [XYZ](https://www.srf.ch/data) ist.
 
-*To pull new hotness from the public repo (grssnbchr/rddj-template)*:
+SRF Data legt Wert darauf, dass die Datenvorprozessierung und -Analyse nachvollzogen und überprüft werden kann. SRF Data glaubt an das Prinzip offener Daten, aber auch offener und nachvollziehbarer Methoden. Zum anderen soll es Dritten ermöglicht werden, auf dieser Vorarbeit aufzubauen und damit weitere Auswertungen oder Applikationen zu generieren.  
 
+Die Endprodukte des vorliegenden Scripts, neben der vorliegenden explorativen Analyse, sind (Datenbeschreibung siehe unten):
 
-```
-cd rddj-template
-git remote add public https://github.com/grssnbchr/rddj-template.git
-git pull public master # Creates a merge commit
-git push origin master
-```
+* `approvement_*.csv`: Für die Visualisierung aufbereitete Daten bezgl. der jeweiligen Fragestellung (nach dem `_`, korrespondiert mit dem Codebuch des ESS). 
+* `approvement_*_icsbfm.csv`: Idem, jedoch jeweils betreffend Frauen oder Männer.
 
-*Finally, to create a pull request private repo -> public repo*: See Medium post.
+### R-Script & Daten
 
-## First time here? Read this:
+Die Vorprozessierung und Analyse wurde im Statistikprogramm R vorgenommen. Das zugrunde liegende Script sowie die prozessierten Daten können unter [diesem Link](https://srfdata.github.io/2019-11-ess-timing-of-life/rscript.zip) heruntergeladen werden. Durch Ausführen von `main.Rmd` kann der hier beschriebene Prozess nachvollzogen und der für den Artikel verwendete Datensatz generiert werden. Dabei werden Daten aus dem Ordner `input` eingelesen und Ergebnisse in den Ordner `output` geschrieben. 
 
-1. [Setup](https://github.com/srfdata/rddj-template-new#deployment-to-github-pages) and [How to run](https://github.com/srfdata/rddj-template-new#how-to-run)
-2. [Specific guidelines for SRF Data](https://github.com/srfdata/rddj-template-new#specific-guidelines-for-srf-data)
-3. [Workflow: publication on srfdata.github.io](https://github.com/srfdata/rddj-template-new#workflow-publication-on-srfdatagithubio)
+SRF Data verwendet das [rddj-template](https://github.com/grssnbchr/rddj-template) von Timo Grossenbacher als Grundlage für seine R-Scripts.  Entstehen bei der Ausführung dieses Scripts Probleme, kann es helfen, die Anleitung von [rddj-template](https://github.com/grssnbchr/rddj-template) zu studieren. 
 
-## Features
+Debug-Informationen: *This report was generated on `r Sys.time()`. R version: `r paste0(version$major, ".", version$minor)` on `r version$platform`. For this report, CRAN packages as of `r package_date` were used.*
 
-* Comes with cutting-edge, tried-and-tested packages for efficient data journalism with R, such as the `tidyverse`
-* *Full* **reproducibility** with package snapshots (thanks to the `checkpoint` package)
-* Runs out of the box and in one go, user doesn't have to have anything pre-installed (except R and maybe RStudio)
-* Automatic deployment of knitted RMarkdown files (and zipped source code) to **GitHub pages**, see [this example](https://grssnbchr.github.io/rddj-template)
-* Code **linting** according to the `tidyverse` style guide
-* Preconfigured `.gitignore` which ignores shadow files, access tokens and the like per default
-* Working directory is set "automagically" (thanks to [@fin](https://github.com/fin))
+### GitHub
 
-*For more information please see the [accompanying blog post](https://timogrossenbacher.ch/2017/07/a-truly-reproducible-r-workflow/)*.
+Der Code für die vorliegende Datenprozessierung ist auf [https://github.com/srfdata/2019-11-ess-timing-of-life](https://github.com/srfdata/2019-11-ess-timing-of-life) zur freien Verwendung verfügbar. 
 
-## Setup
 
-First, clone and *reset* git repository. 
+### Lizenz
 
-```
-git clone https://github.com/srfdata/rddj-template.git
-cd rddj-template
-rm -rf .git
-git init
-```
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Dataset" property="dct:title" rel="dct:type">2019-11-ess-timing-of-life</span> von <a xmlns:cc="http://creativecommons.org/ns#" href="https://github.com/srfdata/2019-11-ess-timing-of-life" property="cc:attributionName" rel="cc:attributionURL">SRF Data</a> ist lizenziert unter einer <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Namensnennung - Weitergabe unter gleichen Bedingungen 4.0 International Lizenz</a>.
 
-If you have a remote repository, you can add it like so: 
+### Weitere Projekte
 
-```
-git remote add origin https://github.com/user/repo.git
-```
+Code & Daten von [SRF Data](https://srf.ch/data) sind unter [https://srfdata.github.io](https://srfdata.github.io) verfügbar.
 
-## How to run
+### Haftungsausschluss
 
-0. The main document `main.Rmd` lies in the folder `analysis`. This is where most of your code resides.
-
-1. Set config variables in the very first chunk, specifically:
-  * `package_date`: This is the historical date of CRAN packages you want to use. Usually, you set this to the current date and leave it be. This way, further executions of the script will always use packages from this very date, ensuring reproducibility.
-  * `R_version`: While specifying a package date is the first step for true reproducibility, you also need to tell people what R version you were using, for the sake of compatibility. For instance, R version 3.5.x probably won't work with packages released before May/June 2018. People who want to reproduce a script that you wrote in 2017, for instance, will have to install R version 3.4.x in order to ensure reproducibility. 
-  * `options(Ncpus = x)`: People with multi-core machines can get a performance boost by specifying more than one core here. If you don't know the number of cores on your machine, set `x` to `1`.
-
-2. **Run the script**: The individual R chunks should be run in the interpreter (`Code > Run Region > Run All`) on Linux/Windows: <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>R</kbd>, on Mac: <kbd>Cmd</kbd>+<kbd>Alt</kbd>+<kbd>R</kbd>). Be advised that some packages, like `rgdal`, need additional third party libraries installed. Watch out for compiler/installation messages in the R console. Also, you need to have the `knitr` and `rstudioapi` packages globally installed, e.g. installed via the RStudio package manager. On a Mac, occasional `y/n:` prompts may show up in the R console during package installation (section "install packages") – just confirm them by pressing `y` and <kbd>Enter</kbd>.  Knitting the RMarkdown should *not* be done with RStudio (see below).
-
-**WARNING**: It is recommended to restart R (`Session > Restart R`) when starting from scratch, i.e. use `Session > Restart R and Run All Chunks` instead of `Run All Chunks`. If you don't do that, `checkpoint` will be re-installed in your local `.checkpoint` folder, or other errors might occur. 
-
-3. **Knitting the RMarkdown**: Because of how RStudio and `checkpoint` works, the use of the "knit" functionality in RStudio is *strongly discouraged*. It might work, but the preferred way is using the `knit.sh` shell script, execute it in a terminal like so: `./knit.sh`. This will make sure the `rmarkdown` package from the specified package date will be used, not the globally installed one. `knit.sh` knits the script into a html document `analysis/main.html`. If you get an error saying that Pandoc could not be found, you need to let your terminal know where the `pandoc` binary resides by adjusting the `PATH` variable. This holds true for both Linux and Mac OS. Pandoc comes with RStudio, and the binary usually resides in `/usr/lib/rstudio/bin` and `/Applications/RStudio.app/Contents/MacOS/pandoc` respectively. So add the respective directory to your path. Workaround without setting the `PATH` variable: Executing `knit.sh` in the built in RStudio terminal (*not* the R console!) always works because RStudio obviously knows the location of the Pandoc binary. *Knitting to PDF is currently not supported*.
-
-## Branches
-
-There are three branches at the moment:
-
-* master: Uses R 3.5.x and packages as of 2019-03-01
-* r-3.4: Uses R 3.4.4 and packages as of 2018-04-01
-* r-3.3: Uses R 3.3.3 and packages as of 2017-01-01
-
-Use whichever you want. 
-
-## OS support
-
-Last (fully) tested November 2018. 
-
-☑️: Full functionality (including knitting RMarkdown with `knit.sh`)
-
-(☑️): Limited functionality (without `knit.sh`)
-
-| branch           | Ubuntu 16.04 | Ubuntu 18.04 | macOS High Sierra | macOS Mojave | Windows 10 |
-|------------------|--------------|--------------|-------------------|--------------|------------|
-| master (R-3.5.x) |              | ☑️            | ☑️                 | ☑️             | (☑️)        |
-| R-3.4.x          | ☑️            | ☑️            | ☑️                 | ☑️            | (☑️)            |
-| R-3.3.x          |              | ☑️<sup>1</sup>| ☑️                   |☑️<sup>3</sup>              |(☑️)<sup>2</sup>           |
-
-* <sup>1</sup>: It may be necessary to reinstall the `curl` package because of `libcurl`. See https://github.com/grssnbchr/rddj-template/issues/9. Also, the compilation of `rgdal` [fails with GDAL 2.2.x](https://github.com/grssnbchr/rddj-template/issues/10).
-* <sup>2</sup>: On my setup, `devtools` could not be installed in one go. First I had to install [RTools](https://cran.r-project.org/bin/windows/Rtools/). Then I had to manually `install.packages("debugme"); install.packages("pkgload"); install.packages("pkgbuild"); install.packages("devtools")`, and then it would finally install `checkpoint` and work smoothly from there. If you encounter any errors while installing `devtools`, have a close look at them and try to figure out what dependencies are missing, then install them manually. 
-* <sup>3</sup>There were errors similar to <sup>2</sup>. When prompted to choose between binary and source packages, I always typed in "y" and hit Enter. This way it worked for me.
-
-## More about `checkpoint`
-
-This template uses the [`checkpoint` package by Microsoft](https://mran.microsoft.com/documents/rro/reproducibility/#timemachine) for full package reproducibility. With this package, all necessary packages (specified in the `Define packages` R chunk) are from a certain CRAN snapshot which you can specify in the very same R chunk (`package_date`). For each `package_date`, the necessary source and compiled packages will be installed to a local `.checkpoint` folder that resides in your home directory. 
-
-This has two big advantages:
-
-1. All packages are from the same CRAN snapshot, i.e. are supposed to play nicely together.
-2. If you re-run your script two or three years after initial creation, exactly those packages that were used at that point in time, that work with *your* code you wrote back then, are loaded and executed. No more deprecated code pieces and weird-looking `ggplot2` plots!
-
-In order to make `checkpoint` work with `knitr`, [this vignette](https://github.com/RevolutionAnalytics/checkpoint/blob/master/vignettes/archive/using-checkpoint-with-knitr.Rmd) was adapted (it is now archived).
-
-### The downside(s) of `checkpoint`
-
-With `checkpoint`, you can only access archived packages from CRAN, i.e. MRAN. As others [have pointed out](https://timogrossenbacher.ch/2017/07/a-truly-reproducible-r-workflow/#comment-48928), GitHub repositories don't fit into this system. I wouldn't consider this as a big issue as you can install specific versions (i.e. releases/tags) from GitHub and as long as the GitHub repository stays alive, you can access these old versions. This is how the `checkpoint` package itself is installed in this template, by the way: 
-
-```
-devtools::install_github("checkpoint",
-                           username = "RevolutionAnalytics",
-                           ref = "v0.3.2")
-```
-
-A second possible disadvantage is the reliance on Microsoft's snapshot system. Once these snapshots are down, the whole system is futile. I reckon/hope there will be third party mirrors though once the system gets really popular. Update September 2017: Apparently you can roll your [own checkpoint server](https://github.com/RevolutionAnalytics/checkpoint-server). 
-
-## Deployment to GitHub pages
-
-The knitted RMarkdown may be deployed to a respective GitHub page. If your repository `repo` is public, it can then be accessed via `https://user.github.io/repo` (example: https://grssnbchr.github.io/rddj-template). In order to do that,
-
-1. Make sure there **are no unstaged changes** in your working directory. Either `git commit` them or `git stash` them before continuing. 
-
-2. Make sure you're in the root folder of your project (the one above `analysis`)
-
-3. Then locally create a `gh-pages` branch first, checkout master again and run the `deploy.sh` script in the root folder:
-
-```
-git checkout -b gh-pages
-git checkout master
-./deploy.sh
-```
-
-4. For further deployments, it is sufficient to re-run `./deploy.sh`. Make sure your working directory is clean before that step. If that is not the case, deployment will not work.
-
-`deploy.sh` does the following: 
-
-* Knit `main.Rmd` into `main.html` using `pandoc`. If that does not work, modify your `PATH` variable like so:
-`export PATH="$PATH:/usr/lib/rstudio/bin/pandoc"` (tested on Linux, for Mac: pandoc's location is usually `export PATH=/Applications/RStudio.app/Contents/MacOS/pandoc:$PATH`). If automatic knitting does not work, just knit it with `knit.sh` and comment the first line in `deploy.sh` (the one with `RScript...`).
-* Turn `main.html` into `index.html` so it can be rendered by GitHub pages.
-* Bundle `main.Rmd`, `input`, `output` and `scripts` into a zipped folder `rscript.zip` so the repo can be easily downloaded by people who don't understand Git.
-* Push everything to your remote `gh-pages` branch (will be created if not existing). 
-* GitHub now builds the page and it should soon be accessible via `https://user.github.io/repo`.
-
-## Linting / styleguide
-
-Code is automatically *linted* with `lintr`, i.e. checked for good style and syntax errors according to the [tidyverse style guide](http://style.tidyverse.org/). When being knitted, the `lintr` output is at the very end of the document. When being interpreted, the `lintr` output appears in a new `Markers` pane at the bottom of RStudio. 
-
-**Please consider after each run and fix stuff.**
-
-## Other stuff / more features
-
-### Versioning of input and output
-
-`input` and `output` files are not ignored by default. This has the advantage that output can be monitored for change when (subtle) details of the R code are changed. 
-
-If you want to ignore (big) input or output files, put them into the respective `ignore` folders. GitHub only allows a maximum file size of 100MB as of summer 2017.
-
-### Ability to outsource code to script files
-
-If you want to keep your `main.Rmd` as tidy and brief as possible, you have the possibility to put separate functions and other code into script files that reside in the `scripts` folder. An example of this is provided in `main.Rmd`.
-
-### Multiple CPU cores for faster package installation
-
-By default, more than one core is used for package installation, which significantly speeds up the process.
-
-### Optimal RStudio settings
-
-It is recommended to disable workspace saving in RStudio, see  https://mran.microsoft.com/documents/rro/reproducibility/doc-research/ 
-
-
-## Installation of older R versions
-
-The idea of this template is that you specify your currently used R version, and that people trying to reproduce your scripts will use that very same R version (or at least up to the two first version numbers, e.g. 3.4.x). This makes it necessary to install old R versions. Here's some advice on how to do that on a couple of OSes. 
-
-### Debian (tested on Ubuntu 16.04 and higher)
-
-Compiled with information from [here](http://r.789695.n4.nabble.com/Installing-different-versions-of-R-simultaneously-on-Linux-td879536.html), [here](https://cloud.r-project.org/doc/FAQ/R-FAQ.html#How-can-R-be-installed-_0028Unix_002dlike_0029) and [here](http://spartanideas.msu.edu/2015/06/19/alternative-versions-of-r/).
-
-* Download the required archive from [here](https://cloud.r-project.org/src/base/)
-* Untar and move it to the `/opt/src` directory with `sudo tar -xvf R-x.y.z.tar.gz -C /opt/src`, this will create a new directory
-* Change into that new directory and run `sudo ./configure --enable-R-shlib --with-cairo=yes --prefix=/opt/R/R-x.y.z` (**change placeholders!**)
-* Install some graphics dependencies `sudo apt-get install libcairo2-dev libgtk2.0-dev libtiff5-dev libx11-dev` if not already done.
-* Compile it with `sudo make`
-* Optionally run `sudo make check`
-* Install it with `sudo make install`
-* There should be an executable binary in `/opt/R/R-x.y.z/bin` now.
-* In order to let your system know of that new R version and to be able to switch between alternatives, do this:
-  * Run `update-alternatives --list R` to see whether R is already registered with alternative versions
-  * If not, make a default alternative `sudo rm -rf /usr/bin/R && sudo update-alternatives --install /usr/bin/R R /usr/lib/R/bin/R 1000` (this is probably the newest R version from the Debian package management system)
-  * Add the newly installed R version as alternative `sudo update-alternatives --install /usr/bin/R R /opt/R/R-x.y.z/bin/R 100`
-  * Check with `update-alternatives --display R`.
-  * From now on, you can easily switch between R versions doing `sudo update-alternatives --config R`. Do this before you start RStudio (RStudio always uses the symlink in `/usr/bin/R`). If there's a problem with a "broken" group, you can "force" the switch with the `--force` flag right after `update-alternatives`.
-  * If the `update-alternatives` switch does not work for some reason, manually set a link with `sudo ln -sf /opt/R/R-x.y.z/bin/R /usr/bin/R` to switch to version `x.y.z`.
-  
-### macOS X (tested on High Sierra and higher)
-
-* First of all, you need to have at least one R version installed (probably the latest one).
-* Navigate to r.research.att.com and download/install the so-called [RSwitch GUI](http://r.research.att.com/RSwitch-1.2.dmg).
-* Download the patched versions of the branch you want to install (earliest available branch is 3.3.) under [this section](http://r.research.att.com/#nightly).
-* Extract the downloaded `*.tar.gz` file and move the folder `Library/Frameworks/R.framework/Versions/x.y` to `/Library/Frameworks/R.framework/Versions/`.
-* Launch "RSwitch GUI" and switch between R versions (change is effective immediately, no need to restart RStudio, only R).
-
-### Windows 10
-
-* Install all desired R binaries directly from [r-project.org](https://cloud.r-project.org/bin/windows/base/old/).
-* RStudio (tested with 1.1.463) has a very convenient switch for R versions that can be found under *Tools > Global Options > General > R version*. After switching, restart RStudio. 
-  
-## Specific guidelines (for SRF Data)
-
-* Disable "workspace reloading" in your IDE: https://mran.microsoft.com/documents/rro/reproducibility/doc-research/
-* Please make full use of the pre-specified packages and do install other packages only with the necessary caution (when in doubt, ask Timo).
-* The individual R chunks should *always* be able to be executed individually (given a previous `Run All`, i.e. all variables are set). 
-* Please remove no longer necessary variables as soon as possible with `rm(var_1, var_2)`. Beware of the above point, though.
-* Outsource code-heavy scripts to the `scripts` folder, don't forget to add them to the linting process.
-* If some chunks take long to run because of large data size et al., cache results with the `save(...)` and `load(...)` functions and comment such workload-heavy chunks out.
-* Regarding `checkpoint`: Please do not change the `package_date` - it is updated with this repository, from time to time. This has the advantage that you don't always need to install new packages (when in doubt, ask Timo).
-* Name each chunk appropriately.
-
-## Workflow: publication on srfdata.github.io
-
-* make a copy of the existing repository
-* in that copy, remove all versioning and commits: `rm -rf .git`
-* delete `frontend`-folder, if available
-* prepare `main.Rmd` for publication (add data description, documentation, remove TODOs, unnecessary code blocks, private stuff, swearing, ugly code, etc.), adapt the project name for correct links to appear, etc. see https://srfdata.github.io/2017-02-kriegsmaterial/ as example
-* add descriptive README.md to parent folder, this will appear on top of the GitHub repo, see for example https://github.com/srfdata/2017-02-kriegsmaterial. Mostly this is just a copy of the first part of the RMarkdown.
-* doublecheck that no sensitive information (passwords, etc.) is versioned (=> `.gitignore`)
-* doublecheck that every output is documented and contained
-* create a local git repository and make an initial commit `git init && git add . && git commit -m "initial commit"`
-* create a new public repository on GitHub with the name `yyyy-mm-project-name`, add that as a remote `git remote add origin ...`
-* check if the RMarkdown can be knitted without errors
-* proceed according to ["Deployment to GitHub pages"](https://github.com/srfdata/rddj-template-new#deployment-to-github-pages)
-* push the master branch to GitHub
-* also populate [srfdata.github.io](https://github.com/srfdata/srfdata.github.io) with links to 1) (main) article, 2) GH repository, 3) srfdata.github.io/yyyy-mm-project-name, 4) fancy teaser image
-* advertise on Twitter et al.! 
-
-## Patching of old projects
-
-Projects released before 2018-11 were using a less-than-perfect version of this template and need to be patched in order to stay reproducible in the future.
-
-Note: (Private) repos before the summer of 2017 did not use any template at all and are thus not migrated to the this system. Public projects (also older than summer 2017) were all migrated to the template and should thus be patched.
-
-These projects should be patched:
-
-* ~~2018-07-linke-staedte~~ 
-* ~~2018-01-roger-federer~~
-* ~~2018-02-parlament-absenzen~~
-* ~~2018-01-dual-use~~ 
-* ~~2017-11-bands~~ 
-* ~~2017-10-instagram-influencers~~
-* ~~2017-09-sbb-ga-halbtax~~ 
-* ~~2017-07-drohnen~~ 
-* ~~2017-05-eng-heizungen~~ 
-* ~~2017-02-kriegsmaterial~~ 
-* 2015-09-elections-political-shifts 
-* 2015-10-elections-list-apparentments
-* 2015-09-elections-cantonal-budgets 
-* 2015-07-elections-parliament-lobbying 
-* 2015-06-elections-partystrengths 
-
-Projects in the making or private projects:
-
-* 1816-ch-spricht
-* ~~1815-health-generations~~
-* 1819-medreg
-* ~~1813-steuern~~
-* ~~1808-trial-waste~~
-* 1613-sessionsscraper
-* 1711-autoversicherungen
-* 1810-praemienverbilligungen
-* ~~18xx-vds~~
-* 1716-krankenkassen
-* 1805-ros
-* 18x-ombudscom
-* 1710-fitymi
-* 1717-klimawandel
-* ~~1503-seco-dual-use-goods~~
-
+Die veröffentlichten Informationen sind sorgfältig zusammengestellt, erheben aber keinen Anspruch auf Aktualität, Vollständigkeit oder Richtigkeit. Es wird keine Haftung übernommen für Schäden, die  durch die Verwendung dieses Scripts oder der daraus gezogenen Informationen entstehen. Dies gilt ebenfalls für Inhalte Dritter, die über dieses Angebot zugänglich sind.
