@@ -1643,14 +1643,14 @@ div.tocify {
 <p>SRF Data legt Wert darauf, dass die Datenvorprozessierung und -Analyse nachvollzogen und überprüft werden kann. SRF Data glaubt an das Prinzip offener Daten, aber auch offener und nachvollziehbarer Methoden. Zum anderen soll es Dritten ermöglicht werden, auf dieser Vorarbeit aufzubauen und damit weitere Auswertungen oder Applikationen zu generieren.</p>
 <p>Die Endprodukte des vorliegenden Scripts, neben der vorliegenden explorativen Analyse, sind (Datenbeschreibung siehe unten):</p>
 <ul>
-<li><code>xyz.csv</code>: …</li>
-<li><code>abc.csv</code>: …</li>
+<li><code>approvement_*.csv</code>: Für die Visualisierung aufbereitete Daten bezgl. der jeweiligen Fragestellung (nach dem <code>_</code>, korrespondiert mit dem Codebuch des ESS).</li>
+<li><code>approvement_*_icsbfm.csv</code>: Idem, jedoch jeweils betreffend Frauen oder Männer.</li>
 </ul>
 <div id="r-script-daten" class="section level3">
 <h3>R-Script &amp; Daten</h3>
 <p>Die Vorprozessierung und Analyse wurde im Statistikprogramm R vorgenommen. Das zugrunde liegende Script sowie die prozessierten Daten können unter <a href="https://srfdata.github.io/2019-11-ess-timing-of-life/rscript.zip">diesem Link</a> heruntergeladen werden. Durch Ausführen von <code>main.Rmd</code> kann der hier beschriebene Prozess nachvollzogen und der für den Artikel verwendete Datensatz generiert werden. Dabei werden Daten aus dem Ordner <code>input</code> eingelesen und Ergebnisse in den Ordner <code>output</code> geschrieben.</p>
 <p>SRF Data verwendet das <a href="https://github.com/grssnbchr/rddj-template">rddj-template</a> von Timo Grossenbacher als Grundlage für seine R-Scripts. Entstehen bei der Ausführung dieses Scripts Probleme, kann es helfen, die Anleitung von <a href="https://github.com/grssnbchr/rddj-template">rddj-template</a> zu studieren.</p>
-<p>Debug-Informationen: <em>This report was generated on 2019-11-01 16:04:23. R version: 3.5.3 on x86_64-pc-linux-gnu. For this report, CRAN packages as of 2019-03-01 were used.</em></p>
+<p>Debug-Informationen: <em>This report was generated on 2019-11-19 14:20:04. R version: 3.5.3 on x86_64-pc-linux-gnu. For this report, CRAN packages as of 2019-03-01 were used.</em></p>
 </div>
 <div id="github" class="section level3">
 <h3>GitHub</h3>
@@ -1670,8 +1670,8 @@ div.tocify {
 </div>
 <div id="datenbeschreibung" class="section level3">
 <h3>Datenbeschreibung</h3>
-<div id="xyz.csv-beispiel" class="section level4">
-<h4><code>xyz.csv</code> (Beispiel)</h4>
+<div id="approvement_.csv-beispiel" class="section level4">
+<h4><code>approvement_*.csv</code> (Beispiel)</h4>
 <table>
 <thead>
 <tr class="header">
@@ -1682,19 +1682,53 @@ div.tocify {
 </thead>
 <tbody>
 <tr class="odd">
-<td>x</td>
+<td>Answer</td>
 <td>String</td>
-<td></td>
+<td>Art der Antwort.</td>
 </tr>
 <tr class="even">
-<td>y</td>
-<td>String</td>
-<td>Ein y, aufgeteilt nach Jahren.</td>
+<td>2006</td>
+<td>Numeric</td>
+<td>Anteil der Befragten mit dieser Antwort im Jahr 2006.</td>
 </tr>
 <tr class="odd">
-<td>z</td>
+<td>2018</td>
 <td>Numeric</td>
-<td>z (wie y, aber numerisch).</td>
+<td>Anteil der Befragten mit dieser Antwort im Jahr 2018.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="approvement__icsbfm.csv" class="section level4">
+<h4><code>approvement_*_icsbfm.csv</code></h4>
+<table>
+<thead>
+<tr class="header">
+<th>Attribut</th>
+<th>Typ</th>
+<th>Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>icsbfm</td>
+<td>String</td>
+<td>Ob die Frage betr. Frauen oder Männer gestellt wurde.</td>
+</tr>
+<tr class="even">
+<td>Answer</td>
+<td>String</td>
+<td>Art der Antwort.</td>
+</tr>
+<tr class="odd">
+<td>2006</td>
+<td>Numeric</td>
+<td>Anteil der Befragten mit dieser Antwort im Jahr 2006.</td>
+</tr>
+<tr class="even">
+<td>2018</td>
+<td>Numeric</td>
+<td>Anteil der Befragten mit dieser Antwort im Jahr 2018.</td>
 </tr>
 </tbody>
 </table>
@@ -1702,7 +1736,7 @@ div.tocify {
 </div>
 <div id="originalquelle" class="section level3">
 <h3>Originalquelle</h3>
-<p>Die Daten stammen vom <a href="https://www.europeansocialsurvey.org/">European Social Survey</a> (ESS), welcher alle zwei Jahre seit 2002 durchgeführt wird und Werte, Einstellungen sowie das soziale Verhalten der Bevölkerung erforscht. Der ESS ist eine wissenschaftliche, länderübergreifende Erhebung und wird in mehr als 30 europäischen Ländern durchgeführt. In der Schweiz wird die Befragung vom Schweizerischen Kompetenzzentrum Sozialwissenschaften (Fors) an der Universität Lausanne durchgeführt. Die neunte Erhebung fand im Jahr 2018 statt und wurde am 31.10.2019 publiziert. Für das vorliegende Projekt wurden die neusten Daten aus der neunten Runde, sowie die Daten aus der dritten Runde (2006) verwendet. Beide erheben Daten zu dem hier analysierten Themenblock “Timing of Life”.</p>
+<p>Die Daten stammen vom <a href="https://www.europeansocialsurvey.org/">European Social Survey</a> (ESS), welcher alle zwei Jahre seit 2002 durchgeführt wird und Werte, Einstellungen sowie das soziale Verhalten der Bevölkerung erforscht. Der ESS ist eine wissenschaftliche, länderübergreifende Erhebung und wird in mehr als 30 europäischen Ländern durchgeführt. In der Schweiz wird die Befragung vom Schweizerischen Kompetenzzentrum Sozialwissenschaften (Fors) an der Universität Lausanne durchgeführt. Die neunte Erhebung fand im Jahr 2018 statt und wurde am 31.10.2019 publiziert. Für das vorliegende Projekt wurden die neusten Daten aus der neunten Runde (2018), sowie die Daten aus der dritten Runde (2006) verwendet. Beide erheben Daten zu dem hier analysierten Themenblock “Timing of Life”.</p>
 <p>Die Daten können auf der Webseite des <a href="https://www.europeansocialsurvey.org/data/">European Social Survey</a> heruntergeladen werden.</p>
 </div>
 </div>
@@ -2065,7 +2099,9 @@ PeopleReaction &lt;- function(data, question_id) {
     pull()
     
   share_calculation %&gt;% 
-    select(-avg_dweight, -is) %&gt;% 
+    select(-avg_dweight, -is) %&gt;%
+    # spread for datawrapper
+    spread(key = year, value = share) %&gt;%
     write_csv(path = glue::glue(&quot;output/approvement_{question_id}.csv&quot;))
   
   share_calculation %&gt;% 
@@ -2138,7 +2174,9 @@ PeopleReactionGrouped &lt;- function(data, question_id, grouping_var, gndr_filte
     ungroup()
   
   share_calculation %&gt;% 
-    select(-avg_dweight, -is) %&gt;% 
+    select(-avg_dweight, -is) %&gt;%
+    # spread for datawrapper
+    spread(key = year, value = share) %&gt;% 
     write_csv(path = glue::glue(&quot;output/approvement_{question_id}_{grouping_var}.csv&quot;))
   
   max_share &lt;- share_calculation %&gt;% 
@@ -2248,46 +2286,46 @@ PeopleReaction(Timing_of_life, &quot;aftjbyc&quot;)</code></pre>
                 trailing_whitespace_linter = NULL
                 )
             )</code></pre>
-<pre><code>## main.Rmd:430:1: style: lines should not be more than 80 characters.
+<pre><code>## main.Rmd:439:1: style: lines should not be more than 80 characters.
 ##     question_id == &quot;anvcld&quot; ~ &quot;Befürworten Sie es, wenn sich eine Person entscheidet, 
 ## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## main.Rmd:432:1: style: lines should not be more than 80 characters.
+## main.Rmd:441:1: style: lines should not be more than 80 characters.
 ##     question_id == &quot;alvgptn&quot; ~ &quot;Befürworten Sie es, wenn eine Person unverheiratet 
 ## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## main.Rmd:434:1: style: lines should not be more than 80 characters.
+## main.Rmd:443:1: style: lines should not be more than 80 characters.
 ##     question_id == &quot;acldnmr&quot; ~ &quot;Befürworten Sie es, wenn eine Person unverheiratet 
 ## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## main.Rmd:436:1: style: lines should not be more than 80 characters.
+## main.Rmd:445:1: style: lines should not be more than 80 characters.
 ##     question_id == &quot;aftjbyc&quot; ~ &quot;Befürworten Sie es, wenn eine Person in Vollzeit 
 ## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## main.Rmd:438:1: style: lines should not be more than 80 characters.
+## main.Rmd:447:1: style: lines should not be more than 80 characters.
 ##     question_id == &quot;advcyc&quot; ~ &quot;Befürworten Sie es, wenn sich eine Person scheiden 
 ## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## main.Rmd:460:20: style: Put spaces around all infix operators.
+## main.Rmd:469:20: style: Put spaces around all infix operators.
 ##                   )%&gt;% 
 ##                   ~^
-## main.Rmd:468:22: style: Put spaces around all infix operators.
+## main.Rmd:477:22: style: Put spaces around all infix operators.
 ##     mutate(share = is/sum(is)) %&gt;% 
 ##                     ~^~
-## main.Rmd:513:1: style: lines should not be more than 80 characters.
+## main.Rmd:524:1: style: lines should not be more than 80 characters.
 ## PeopleReactionGrouped &lt;- function(data, question_id, grouping_var, gndr_filter = FALSE) {
 ## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## main.Rmd:519:5: style: Place a space before left parenthesis, except in a function call.
+## main.Rmd:530:5: style: Place a space before left parenthesis, except in a function call.
 ##   if(gndr_filter != FALSE){
 ##     ^
-## main.Rmd:546:22: style: Put spaces around all infix operators.
+## main.Rmd:557:22: style: Put spaces around all infix operators.
 ##     mutate(share = is/sum(is)) %&gt;% 
 ##                     ~^~
-## main.Rmd:551:1: style: lines should not be more than 80 characters.
+## main.Rmd:564:1: style: lines should not be more than 80 characters.
 ##     write_csv(path = glue::glue(&quot;output/approvement_{question_id}_{grouping_var}.csv&quot;))
 ## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## main.Rmd:559:1: style: lines should not be more than 80 characters.
+## main.Rmd:572:1: style: lines should not be more than 80 characters.
 ##   addendum &lt;- ifelse(gndr_filter == &quot;Mann&quot;, glue::glue(&quot;{addendum} Männern)&quot;), addendum)
 ## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## main.Rmd:560:1: style: lines should not be more than 80 characters.
+## main.Rmd:573:1: style: lines should not be more than 80 characters.
 ##   addendum &lt;- ifelse(gndr_filter == &quot;Frau&quot;, glue::glue(&quot;{addendum} Frauen)&quot;), addendum)
 ## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-## main.Rmd:596:1: style: lines should not be more than 80 characters.
+## main.Rmd:609:1: style: lines should not be more than 80 characters.
 ##          subtitle = ifelse(grouping_var == &quot;icsbfm&quot;, glue::glue(&quot;Frage jeweils betreffend Frauen und Männern separat gestellt {addendum}&quot;), &quot;&quot;),
 ## ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</code></pre>
 <pre class="r"><code># if you have additional scripts and want them to be linted too, add them here
