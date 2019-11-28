@@ -6,7 +6,7 @@ Dieses Dokument beschreibt die Vorprozessierung und explorative Analyse des Date
 
 SRF Data legt Wert darauf, dass die Datenvorprozessierung und -Analyse nachvollzogen und überprüft werden kann. SRF Data glaubt an das Prinzip offener Daten, aber auch offener und nachvollziehbarer Methoden. Zum anderen soll es Dritten ermöglicht werden, auf dieser Vorarbeit aufzubauen und damit weitere Auswertungen oder Applikationen zu generieren.  
 
-Die Endprodukte des vorliegenden Scripts, neben der vorliegenden explorativen Analyse, sind (Datenbeschreibung siehe unten):
+Die Endprodukte des vorliegenden Scripts, neben der vorliegenden explorativen Analyse, sind:
 
 * `approvement_*.csv`: Für die Visualisierung aufbereitete Daten bezgl. der jeweiligen Fragestellung (nach dem `_`, korrespondiert mit dem Codebuch des ESS). 
 * `approvement_*_icsbfm.csv`: Idem, jedoch jeweils betreffend Frauen oder Männer.
@@ -17,7 +17,6 @@ Die Vorprozessierung und Analyse wurde im Statistikprogramm R vorgenommen. Das z
 
 SRF Data verwendet das [rddj-template](https://github.com/grssnbchr/rddj-template) von Timo Grossenbacher als Grundlage für seine R-Scripts.  Entstehen bei der Ausführung dieses Scripts Probleme, kann es helfen, die Anleitung von [rddj-template](https://github.com/grssnbchr/rddj-template) zu studieren. 
 
-Debug-Informationen: *This report was generated on `r Sys.time()`. R version: `r paste0(version$major, ".", version$minor)` on `r version$platform`. For this report, CRAN packages as of `r package_date` were used.*
 
 ### GitHub
 
