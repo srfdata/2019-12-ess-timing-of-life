@@ -454,7 +454,7 @@ translate_question_ids_short <- function(question_id) {
 }
 
 # Function: How did the attitudes change?
-PeopleReaction <- function(data, question_id) {
+PeopleReaction <- function(data, question_id, save_csv = FALSE) {
   share_calculation <- data %>% 
     filter(Question == question_id & 
              !is.na(Answer)) %>% 
@@ -487,12 +487,13 @@ PeopleReaction <- function(data, question_id) {
     slice(1) %>% 
     pull()
     
-  share_calculation %>% 
-    select(-avg_dweight, -is) %>%
-    # spread for datawrapper
-    spread(key = year, value = share) %>%
-    write_csv(path = glue::glue("output/approvement_{question_id}.csv"))
-  
+  if(save_csv == TRUE) {
+    share_calculation %>% 
+      select(-avg_dweight, -is) %>%
+      # spread for datawrapper
+      spread(key = year, value = share) %>%
+      write_csv(path = glue::glue("output/approvement_{question_id}.csv"))
+  }
   share_calculation %>% 
     ggplot(aes(x = year, 
                y = share, 
@@ -529,7 +530,8 @@ PeopleReaction <- function(data, question_id) {
 PeopleReactionGrouped <- function(data,
                                   question_id, 
                                   grouping_var, 
-                                  gndr_filter = FALSE) {
+                                  gndr_filter = FALSE,
+                                  save_csv = FALSE) {
   share_calculation <- data %>% 
     filter(Question == question_id & 
              !is.na(Answer) & 
@@ -565,13 +567,15 @@ PeopleReactionGrouped <- function(data,
     mutate(share = is / sum(is)) %>% 
     ungroup()
   
-  share_calculation %>% 
-    select(-avg_dweight, -is) %>%
-    # spread for datawrapper
-    spread(key = year, value = share) %>% 
-    write_csv(path = 
-                glue::glue(
-                  "output/approvement_{question_id}_{grouping_var}.csv"))
+  if(save_csv == TRUE) {
+    share_calculation %>% 
+      select(-avg_dweight, -is) %>%
+      # spread for datawrapper
+      spread(key = year, value = share) %>% 
+      write_csv(path = 
+                  glue::glue(
+                    "output/approvement_{question_id}_{grouping_var}.csv"))
+  }
   
   max_share <- share_calculation %>% 
     arrange(desc(share)) %>% 
@@ -629,24 +633,24 @@ x = "", y = "")
 
 
 # never has children
-PeopleReaction(Timing_of_life, "anvcld")
+PeopleReaction(Timing_of_life, "anvcld", save_csv = TRUE)
 PeopleReactionGrouped(Timing_of_life, "anvcld", "icsbfm")
 
 # live unmarried with partner
-PeopleReaction(Timing_of_life, "alvgptn")
+PeopleReaction(Timing_of_life, "alvgptn", save_csv = TRUE)
 PeopleReactionGrouped(Timing_of_life, "alvgptn", "icsbfm")
 
 # get divorced with kids under 12
-PeopleReaction(Timing_of_life, "advcyc")
+PeopleReaction(Timing_of_life, "advcyc", save_csv = TRUE)
 PeopleReactionGrouped(Timing_of_life, "advcyc", "icsbfm")
 
 # unmarried and has kids
-PeopleReaction(Timing_of_life, "acldnmr")
+PeopleReaction(Timing_of_life, "acldnmr", save_csv = TRUE)
 PeopleReactionGrouped(Timing_of_life, "acldnmr", "icsbfm")
 
 # working full-time with kids under 3
 PeopleReaction(Timing_of_life, "aftjbyc")
-PeopleReactionGrouped(Timing_of_life, "aftjbyc", "icsbfm")
+PeopleReactionGrouped(Timing_of_life, "aftjbyc", "icsbfm", save_csv = TRUE)
 PeopleReactionGrouped(Timing_of_life, "aftjbyc", "icsbfm", "Frau")
 PeopleReactionGrouped(Timing_of_life, "aftjbyc", "icsbfm", "Mann")
 
